@@ -7,6 +7,11 @@ This module defines a generic server object that implements the Rawdog TCP Commu
 ```golang
 
 import (
+    "bytes"
+    "log"
+    "net"
+
+    comms "github.com/thomas-osgood/rawdog-comms"
     rdserver "github.com/thomas-osgood/rawdog-server"
 )
 
