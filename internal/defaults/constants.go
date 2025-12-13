@@ -15,3 +15,5 @@ const DEFAULT_READ_TIMEOUT time.Duration = 15 * time.Second
 
 // default send timeout for server.
 const DEFAULT_SEND_TIMEOUT time.Duration = 5 * time.Second
+
+var VALID_CONNTYPES []string = []string{"tcp", "tcp4", "tcp6", "unix", "unixpacket"}
