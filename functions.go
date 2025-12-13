@@ -24,6 +24,7 @@ import (
 //	}
 func NewTeamServer(opts ...TeamServerConfigFunc) (ts *TeamServer, err error) {
 	var config *TeamServerConfig = &TeamServerConfig{
+		ConnType:               defaults.DEFAULT_CONNTYPE,
 		InternalErrorFunc:      nil,
 		InvalidEndpointHandler: nil,
 		ListenAddress:          defaults.DEFAULT_ADDRESS,
