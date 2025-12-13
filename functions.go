@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"slices"
 	"strings"
 	"time"
 
@@ -98,6 +99,22 @@ func WithEndpoints(endpoints EndpointMap) TeamServerConfigFunc {
 		}
 
 		tsc.Endpoints = endpoints
+
+		return nil
+	}
+}
+
+// function designed to set the ConnType that teamserver
+// will listen for on start.
+func WithConnectionType(connType string) TeamServerConfigFunc {
+	return func(tsc *TeamServerConfig) error {
+		connType = strings.ToLower(connType)
+
+		if !slices.Contains(defaults.VALID_CONNTYPES, connType) {
+			return fmt.Errorf("invalid connection type \"%s\"", connType)
+		}
+
+		tsc.ConnType = connType
 
 		return nil
 	}
