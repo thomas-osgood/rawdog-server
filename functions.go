@@ -77,6 +77,7 @@ func NewTeamServer(opts ...TeamServerConfigFunc) (ts *TeamServer, err error) {
 	// assign values to the teamserver that will
 	// be returned by this function.
 	ts = &TeamServer{
+		connType:               config.ConnType,
 		endpoints:              config.Endpoints,
 		internalErrorFunc:      config.InternalErrorFunc,
 		invalidEndpointHandler: config.InvalidEndpointHandler,
