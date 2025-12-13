@@ -15,7 +15,7 @@ import (
 // function designed to start the server listening
 // for incoming connections.
 func (ts *TeamServer) Start() (err error) {
-	ts.listener, err = net.Listen("tcp", ts.listenAddress)
+	ts.listener, err = net.Listen(ts.connType, ts.listenAddress)
 	if err != nil {
 		return err
 	}
