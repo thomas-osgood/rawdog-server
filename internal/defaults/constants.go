@@ -6,6 +6,10 @@ import "time"
 // listen for incoming connections on.
 const DEFAULT_ADDRESS string = "0.0.0.0:8080"
 
+// default connection type the teamserver will listen
+// for if none is specified by the user.
+const DEFAULT_CONNTYPE string = "tcp"
+
 // default read timeout for server.
 const DEFAULT_READ_TIMEOUT time.Duration = 15 * time.Second
 
