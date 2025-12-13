@@ -9,6 +9,11 @@ import (
 
 // structure defining the TeamServer object.
 type TeamServer struct {
+	// type of connection the server will listen for
+	// when it starts.
+	//
+	// this is the value that gets sent to `net.Listen`.
+	connType string
 	// map holding all endpoints the server can handle.
 	endpoints EndpointMap
 	// function that will fire off when an error occurs
@@ -34,6 +39,8 @@ type TeamServer struct {
 // structure defining the various configuration
 // options that can be set for a new TeamServer.
 type TeamServerConfig struct {
+	// connection type to specify for the teamserver.
+	ConnType string
 	// map holding desired endpoints for the server.
 	Endpoints EndpointMap
 	// function that will transmit error messages
