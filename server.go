@@ -3,18 +3,40 @@ package server
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"log"
 	"net"
 	"net/http"
+	"os"
+	"slices"
 
 	comms "github.com/thomas-osgood/rawdog-comms"
 
 	"github.com/thomas-osgood/rawdog-server/internal/messages"
+	"github.com/thomas-osgood/rawdog-server/internal/validations"
 )
 
 // function designed to start the server listening
 // for incoming connections.
 func (ts *TeamServer) Start() (err error) {
+
+	// if the specified connection type is a unix socket,
+	// look for a socket of the same name and attempt to
+	// delete it prior to spinning up a new one.
+	if slices.Contains(validations.UNIXSOCKET_CONTYPES, ts.connType) {
+		_, err = os.Stat(ts.listenAddress)
+		if err == nil {
+
+			err = os.Remove(ts.listenAddress)
+			if err != nil {
+				return err
+			}
+
+		} else if !errors.Is(err, os.ErrNotExist) {
+			return err
+		}
+	}
+
 	ts.listener, err = net.Listen(ts.connType, ts.listenAddress)
 	if err != nil {
 		return err
