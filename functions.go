@@ -8,6 +8,7 @@ import (
 
 	"github.com/thomas-osgood/rawdog-server/internal/defaults"
 	"github.com/thomas-osgood/rawdog-server/internal/messages"
+	"github.com/thomas-osgood/rawdog-server/internal/validations"
 )
 
 // function designed to create and initialize a
@@ -111,7 +112,7 @@ func WithConnectionType(connType string) TeamServerConfigFunc {
 	return func(tsc *TeamServerConfig) error {
 		connType = strings.ToLower(connType)
 
-		if !slices.Contains(defaults.VALID_CONNTYPES, connType) {
+		if !slices.Contains(validations.VALID_CONNTYPES, connType) {
 			return fmt.Errorf("invalid connection type \"%s\"", connType)
 		}
 
