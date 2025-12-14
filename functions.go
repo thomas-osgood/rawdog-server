@@ -2,11 +2,13 @@ package server
 
 import (
 	"fmt"
+	"slices"
 	"strings"
 	"time"
 
 	"github.com/thomas-osgood/rawdog-server/internal/defaults"
 	"github.com/thomas-osgood/rawdog-server/internal/messages"
+	"github.com/thomas-osgood/rawdog-server/internal/validations"
 )
 
 // function designed to create and initialize a
@@ -24,6 +26,7 @@ import (
 //	}
 func NewTeamServer(opts ...TeamServerConfigFunc) (ts *TeamServer, err error) {
 	var config *TeamServerConfig = &TeamServerConfig{
+		ConnType:               defaults.DEFAULT_CONNTYPE,
 		InternalErrorFunc:      nil,
 		InvalidEndpointHandler: nil,
 		ListenAddress:          defaults.DEFAULT_ADDRESS,
@@ -75,6 +78,7 @@ func NewTeamServer(opts ...TeamServerConfigFunc) (ts *TeamServer, err error) {
 	// assign values to the teamserver that will
 	// be returned by this function.
 	ts = &TeamServer{
+		connType:               config.ConnType,
 		endpoints:              config.Endpoints,
 		internalErrorFunc:      config.InternalErrorFunc,
 		invalidEndpointHandler: config.InvalidEndpointHandler,
@@ -97,6 +101,22 @@ func WithEndpoints(endpoints EndpointMap) TeamServerConfigFunc {
 		}
 
 		tsc.Endpoints = endpoints
+
+		return nil
+	}
+}
+
+// function designed to set the ConnType that teamserver
+// will listen for on start.
+func WithConnectionType(connType string) TeamServerConfigFunc {
+	return func(tsc *TeamServerConfig) error {
+		connType = strings.ToLower(connType)
+
+		if !slices.Contains(validations.VALID_CONNTYPES, connType) {
+			return fmt.Errorf("invalid connection type \"%s\"", connType)
+		}
+
+		tsc.ConnType = connType
 
 		return nil
 	}
